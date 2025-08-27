@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-nebula">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Day Planner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.10.0"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+    --font-sans: 'Inter', sans-serif;
+    --font-mono: 'Fira Code', monospace;
+}
+
+.theme-nebula {
+    --bg-primary: #090A0F;
+    --bg-secondary: #1B2735;
+    --text-primary: #E5E7EB;
+    --text-secondary: #9CA3AF;
+    --text-muted: #6B7280;
+    --border-color: rgba(107, 114, 128, 0.5);
+    --card-bg: rgba(23, 26, 35, 0.7);
+    --header-bg: rgba(9, 10, 15, 0.5);
+    --modal-bg: #111827;
+    --button-bg: #374151;
+    --button-hover-bg: #4B5563;
+    --accent-color: #3b82f6;
+    --font-family: var(--font-sans);
+}
+
+.theme-professional {
+    --bg-primary: #F3F4F6;
+    --bg-secondary: #FFFFFF;
+    --text-primary: #1F2937;
+    --text-secondary: #4B5563;
+    --text-muted: #9CA3AF;
+    --border-color: #D1D5DB;
+    --card-bg: #FFFFFF;
+    --header-bg: rgba(255, 255, 255, 0.7);
+    --modal-bg: #FFFFFF;
+    --button-bg: #E5E7EB;
+    --button-hover-bg: #D1D5DB;
+    --accent-color: #3b82f6;
+    --font-family: var(--font-sans);
+}
+
+.theme-retro {
+    --bg-primary: #0D0D0D;
+    --bg-secondary: #1A1A1A;
+    --text-primary: #00FF41;
+    --text-secondary: #00E03A;
+    --text-muted: #00A32A;
+    --border-color: #00FF41;
+    --card-bg: rgba(10, 25, 10, 0.6);
+    --header-bg: rgba(13, 13, 13, 0.5);
+    --modal-bg: #0A190A;
+    --button-bg: #005A17;
+    --button-hover-bg: #008F26;
+    --accent-color: #00FF41;
+    --font-family: var(--font-mono);
+}
+
+.theme-blueprint {
+    --bg-primary: #0A2E4E;
+    --bg-secondary: #0E3A63;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0C4DE;
+    --text-muted: #87CEFA;
+    --border-color: #4682B4;
+    --card-bg: rgba(14, 58, 99, 0.7);
+    --header-bg: rgba(10, 46, 78, 0.5);
+    --modal-bg: #0E3A63;
+    --button-bg: #1C5A8A;
+    --button-hover-bg: #2A83C2;
+    --accent-color: #87CEFA;
+    --font-family: var(--font-sans);
+}
+
+.theme-sunset {
+    --bg-primary: #1E1B34;
+    --bg-secondary: #3E3875;
+    --text-primary: #FFFFFF;
+    --text-secondary: #E5E7EB;
+    --text-muted: #D1D5DB;
+    --border-color: #5A5494;
+    --card-bg: rgba(43, 39, 82, 0.7);
+    --header-bg: rgba(30, 27, 52, 0.5);
+    --modal-bg: #2B2752;
+    --button-bg: #4E4A85;
+    --button-hover-bg: #615C9C;
+    --accent-color: #F9A8D4;
+    --font-family: var(--font-sans);
+}
+
+.theme-oceanic {
+    --bg-primary: #041F3A;
+    --bg-secondary: #083358;
+    --text-primary: #E0F2FE;
+    --text-secondary: #BAE6FD;
+    --text-muted: #7DD3FC;
+    --border-color: #0E4B7B;
+    --card-bg: rgba(6, 42, 71, 0.7);
+    --header-bg: rgba(4, 31, 58, 0.5);
+    --modal-bg: #062A49;
+    --button-bg: #0A5A97;
+    --button-hover-bg: #0C72C0;
+    --accent-color: #38BDF8;
+    --font-family: var(--font-sans);
+}
+
+.theme-sakura {
+    --bg-primary: #FEF6F6;
+    --bg-secondary: #FFFFFF;
+    --text-primary: #374151;
+    --text-secondary: #4B5563;
+    --text-muted: #9CA3AF;
+    --border-color: #FBCFE8;
+    --card-bg: rgba(255, 255, 255, 0.7);
+    --header-bg: rgba(254, 246, 246, 0.5);
+    --modal-bg: #FFFFFF;
+    --button-bg: #FCE7F3;
+    --button-hover-bg: #FBCFE8;
+    --accent-color: #EC4899;
+    --font-family: var(--font-sans);
+}
+
+.theme-dracula {
+    --bg-primary: #282a36;
+    --bg-secondary: #1E1F29;
+    --text-primary: #f8f8f2;
+    --text-secondary: #bd93f9;
+    --text-muted: #6272a4;
+    --border-color: #44475a;
+    --card-bg: rgba(50, 52, 69, 0.7);
+    --header-bg: rgba(40, 42, 54, 0.5);
+    --modal-bg: #44475a;
+    --button-bg: #6272a4;
+    --button-hover-bg: #7182b6;
+    --accent-color: #ff79c6;
+    --font-family: var(--font-sans);
+}
+
+.theme-solarized {
+    --bg-primary: #002b36;
+    --bg-secondary: #073642;
+    --text-primary: #839496;
+    --text-secondary: #93a1a1;
+    --text-muted: #586e75;
+    --border-color: #268bd2;
+    --card-bg: rgba(7, 54, 66, 0.7);
+    --header-bg: rgba(0, 43, 54, 0.5);
+    --modal-bg: #073642;
+    --button-bg: #586e75;
+    --button-hover-bg: #657b83;
+    --accent-color: #2aa198;
+    --font-family: var(--font-sans);
+}
+
+.theme-evergreen {
+    --bg-primary: #1A2E28;
+    --bg-secondary: #2D4A41;
+    --text-primary: #E8E5E0;
+    --text-secondary: #B4CFC7;
+    --text-muted: #78998D;
+    --border-color: #4A6E63;
+    --card-bg: rgba(36, 60, 53, 0.7);
+    --header-bg: rgba(26, 46, 40, 0.5);
+    --modal-bg: #243C35;
+    --button-bg: #4A6E63;
+    --button-hover-bg: #5F8A7D;
+    --accent-color: #6EE7B7;
+    --font-family: var(--font-sans);
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.5s ease;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.theme-retro body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px);
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.theme-blueprint body {
+    background-image:
+        linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.theme-nebula body {
+    background: 
+        radial-gradient(ellipse at 20% 80%, rgba(150, 50, 100, 0.25) 0%, rgba(150, 50, 100, 0) 60%),
+        radial-gradient(ellipse at 80% 30%, rgba(80, 150, 120, 0.2) 0%, rgba(80, 150, 120, 0) 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(50, 80, 150, 0.3) 0%, rgba(50, 80, 150, 0) 70%),
+        radial-gradient(ellipse at bottom, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+    background-size: 250% 250%;
+    min-height: 100vh;
+    animation: move-nebula 200s ease-in-out infinite alternate;
+}
+
+.theme-sunset body {
+    background: linear-gradient(160deg, #372A5A 0%, #7B4B7B 50%, #F97A7A 100%);
+    background-size: 150% 150%;
+    animation: move-sunset 20s ease-in-out infinite alternate;
+}
+@keyframes move-sunset { from { background-position: 0% 0%; } to { background-position: 100% 100%; } }
+
+.theme-oceanic body {
+    background-color: var(--bg-primary);
+    position: relative;
+}
+
+.theme-oceanic body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        linear-gradient(rgba(17, 107, 163, 0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 107, 163, 0.2) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: move-ocean-grid 10s linear infinite;
+    z-index: -1;
+}
+
+.theme-sakura #petals-container {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+}
+.theme-sakura .petal {
+    position: absolute;
+    background-color: #FECDD3;
+    border-radius: 100% 0;
+    width: 20px;
+    height: 15px;
+    animation: fall linear infinite;
+}
+.theme-sakura .petal:nth-child(2n) {
+    background-color: #F9A8D4;
+}
+.theme-sakura .petal:nth-child(3n) {
+    animation-duration: 8s;
+    animation-delay: -3s;
+    width: 15px;
+    height: 10px;
+}
+@keyframes fall {
+  0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+@keyframes move-ocean-grid { from { background-position: 0 0; } to { background-position: 50px 50px; } }
+
+@keyframes move-nebula { from { background-position: 0% 0%; } to { background-position: 100% 100%; } }
+@keyframes fly { from { transform: translateY(0px); } to { transform: translateY(-1000px); } }
+@keyframes shooting-star { 0% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(300vw); opacity: 0; } }
+
+.theme-nebula #star-bg {
+    display: block;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; overflow: hidden;
+}
+
+#star-bg, #petals-container { display: none; }
+
+#stars1, #stars2, #stars3 {
+    position: absolute; left: 0; top: 0; right: 0; height: 2000px; background-repeat: repeat; background-size: 1000px 1000px;
+}
+#stars1 {
+    background-image: radial-gradient(1px 1px at 100px 200px,white,transparent),radial-gradient(1px 1px at 250px 800px,white,transparent),radial-gradient(1px 1px at 400px 500px,white,transparent),radial-gradient(1px 1px at 620px 720px,white,transparent),radial-gradient(1px 1px at 800px 100px,white,transparent),radial-gradient(1px 1px at 950px 450px,white,transparent),radial-gradient(1px 1px at 150px 950px,white,transparent),radial-gradient(1px 1px at 500px 300px,white,transparent),radial-gradient(1px 1px at 50px 50px,white,transparent),radial-gradient(1px 1px at 180px 600px,white,transparent),radial-gradient(1px 1px at 330px 400px,white,transparent),radial-gradient(1px 1px at 470px 900px,white,transparent),radial-gradient(1px 1px at 600px 150px,white,transparent),radial-gradient(1px 1px at 750px 650px,white,transparent),radial-gradient(1px 1px at 880px 880px,white,transparent),radial-gradient(1px 1px at 920px 250px,white,transparent),radial-gradient(1px 1px at 20px 700px,white,transparent),radial-gradient(1px 1px at 550px 50px,white,transparent);
+    animation: fly 200s linear infinite;
+}
+#stars2 {
+    background-image: radial-gradient(1.5px 1.5px at 50px 300px,white,transparent),radial-gradient(1.5px 1.5px at 300px 100px,white,transparent),radial-gradient(1.5px 1.5px at 550px 600px,white,transparent),radial-gradient(1.5px 1.5px at 750px 250px,white,transparent),radial-gradient(1.5px 1.5px at 900px 900px,white,transparent),radial-gradient(1.5px 1.5px at 150px 700px,white,transparent),radial-gradient(1.5px 1.5px at 400px 400px,white,transparent),radial-gradient(1.5px 1.5px at 650px 850px,white,transparent),radial-gradient(1.5px 1.5px at 850px 500px,white,transparent),radial-gradient(1.5px 1.5px at 250px 500px,white,transparent);
+    animation: fly 400s linear infinite;
+}
+#stars3 {
+    background-image: radial-gradient(2px 2px at 100px 100px,white,transparent),radial-gradient(2px 2px at 400px 700px,white,transparent),radial-gradient(2px 2px at 700px 400px,white,transparent),radial-gradient(2px 2px at 900px 600px,white,transparent),radial-gradient(2px 2px at 200px 500px,white,transparent),radial-gradient(2px 2px at 600px 900px,white,transparent),radial-gradient(2px 2px at 800px 300px,white,transparent),radial-gradient(2px 2px at 50px 800px,white,transparent);
+    animation: fly 600s linear infinite;
+}
+</style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="star-bg">
+      <div id="stars1"></div>
+      <div id="stars2"></div>
+      <div id="stars3"></div>
+    </div>
+    <div id="petals-container">
+      <script>
+        const container = document.getElementById('petals-container');
+        for (let i = 0; i < 20; i++) {
+          const petal = document.createElement('div');
+          petal.className = 'petal';
+          petal.style.left = Math.random() * 100 + 'vw';
+          petal.style.animationDuration = (Math.random() * 5 + 5) + 's';
+          petal.style.animationDelay = (Math.random() * 5) + 's';
+          container.appendChild(petal);
+        }
+      </script>
+    </div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
